@@ -3,10 +3,13 @@ FROM php:8.2-apache
 # 1. PostgreSQL 用の PHP 拡張 (pdo_pgsql) および Git / Zip 等をインストール
 RUN apt-get update && apt-get install -y \
     libpq-dev \
+    libicu-dev \
+    libzip-dev \    
     git \
     unzip \
-    && docker-php-ext-install \
-        pdo \
+    && docker-php-ext-configure intl \    
+    && docker-php-ext-install -j$(nproc) \
+        pdo \ 
         pdo_pgsql \
         intl \
         zip \
