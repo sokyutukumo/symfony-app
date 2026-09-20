@@ -5,7 +5,11 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     git \
     unzip \
-    && docker-php-ext-install pdo pdo_pgsql \
+    && docker-php-ext-install \
+        pdo \
+        pdo_pgsql \
+        intl \
+        zip \
     && rm -rf /var/lib/apt/lists/*
 
 # 2. Composer のコピー
@@ -23,13 +27,14 @@ WORKDIR /var/www/html/
 
 # 5. 依存パッケージのコピーとインストール
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-scripts
+RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-req
 
 # 6. アプリ全ファイルのコピー (bin/, src/, migrations/ 等含む)
 COPY . /var/www/html/
 
 # 7. オートロード最適化と権限設定
 RUN composer dump-autoload --optimize \
+    && mkdir -p /var/www/html/var \
     && chown -R www-data:www-data /var/www/html/var
 
 EXPOSE 80
