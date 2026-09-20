@@ -1,1 +1,9 @@
-<?php echo '<h1>Version 2.0 Deployed via GitOps!</h1>';
+<?php
+
+use App\Kernel;
+
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+
+return static function (array $context) {
+    return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+};
