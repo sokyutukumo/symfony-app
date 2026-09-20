@@ -1,4 +1,4 @@
-FROM php:8.2-apache
+FROM php:8.4-apache
 
 # 1. PostgreSQL 用の PHP 拡張 (pdo_pgsql) および Git / Zip 等をインストール
 RUN apt-get update && apt-get install -y \
@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # 2. Composer のコピー
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.10.3 /usr/bin/composer /usr/bin/composer
 
 # 3. Apache のドキュメントルートを public/ に変更 (Symfony標準)
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
