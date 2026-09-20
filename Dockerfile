@@ -30,7 +30,7 @@ WORKDIR /var/www/html/
 
 # 5. 依存パッケージのコピーとインストール
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-req
+RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-reqs
 
 # 6. アプリ全ファイルのコピー (bin/, src/, migrations/ 等含む)
 COPY . /var/www/html/
